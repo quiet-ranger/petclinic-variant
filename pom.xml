@@ -14,7 +14,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>petclinic-variant</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.1-SNAPSHOT</version>
     <name>petclinic-variant</name>
     <description>petclinic-variant</description>
     <properties>
@@ -49,7 +49,7 @@
 
     <scm>
         <developerConnection>scm:git:git@github.com:quiet-ranger/petclinic-variant.git</developerConnection>
-      <tag>petclinic-variant-0.2.0</tag>
+      <tag>HEAD</tag>
   </scm>
 
 </project>
