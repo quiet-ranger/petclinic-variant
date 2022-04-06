@@ -1,4 +1,4 @@
-package com.example.pcv.model;
+package model;
 
 import java.time.LocalDate;
 
