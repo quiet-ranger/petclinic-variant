@@ -1,4 +1,4 @@
-package model;
+package com.example.pcv.model;
 
 public class Person {
 
