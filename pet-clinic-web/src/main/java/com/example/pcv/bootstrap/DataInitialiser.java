@@ -27,40 +27,36 @@ public class DataInitialiser implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         Owner owner1 = new Owner();
-        owner1.setId(1L);
         owner1.setFirstName("Rafael");
         owner1.setLastName("Nadal");
         owner1.setAddress("Calle Genova, 3");
         owner1.setCity("Madrid");
         owner1.setTelephone("1231231234");
 
-        ownerService.save(1L, owner1);
+        ownerService.save(owner1);
 
         Owner owner2 = new Owner();
-        owner2.setId(2L);
-        owner2.setFirstName("Fiona");
-        owner2.setLastName("Glenanne");
-        owner2.setAddress("123 Brickerel");
-        owner2.setCity("Miami");
+        owner2.setFirstName("Eduardo");
+        owner2.setLastName("Alonso");
+        owner2.setAddress("Avenida de la Castellana, 157");
+        owner2.setCity("Madrid");
         owner2.setTelephone("1231231234");
 
-        ownerService.save(2L, owner2);
+        ownerService.save(owner2);
 
         System.out.println("Loaded owners...");
 
         Vet vet1 = new Vet();
-        vet1.setId(1L);
-        vet1.setFirstName("Sam");
-        vet1.setLastName("Axe");
+        vet1.setFirstName("Pedro");
+        vet1.setLastName("Sanchez");
 
-        vetService.save(1L,vet1);
+        vetService.save(vet1);
 
         Vet vet2 = new Vet();
-        vet2.setId(2L);
-        vet2.setFirstName("Jessie");
-        vet2.setLastName("Porter");
+        vet2.setFirstName("Santiago");
+        vet2.setLastName("Carrillo");
 
-        vetService.save(2L, vet2);
+        vetService.save(vet2);
 
         System.out.println("Loaded vets...");
     }

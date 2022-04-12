@@ -1,13 +1,11 @@
 package com.example.pcv.services.map;
 
+import com.example.pcv.model.BaseEntity;
 import com.example.pcv.services.CrudService;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public abstract class AbstractMapService<T, ID> implements CrudService<T, ID> {
+public abstract class AbstractMapService<T extends BaseEntity, ID extends Long> implements CrudService<T, ID> {
 
     protected Map<ID, T> map = new HashMap<>();
 
@@ -27,8 +25,13 @@ public abstract class AbstractMapService<T, ID> implements CrudService<T, ID> {
     }
 
     @Override
-    public T save(ID id, T entity) {
-        map.put(id, entity);
+    public T save(T entity) {
+        if (entity != null) {
+            if (entity.getId() == null) {
+                entity.setId(getNextId());
+            }
+            map.put((ID) entity.getId(), entity);
+        }
         return entity;
     }
 
@@ -42,4 +45,12 @@ public abstract class AbstractMapService<T, ID> implements CrudService<T, ID> {
         map.remove(id);
     }
 
+    private Long getNextId() {
+        if (map.size() == 0) {
+            return 0L;
+        }
+        else {
+            return ((Long)Collections.max(map.keySet())) + 1L;
+        }
+    }
 }
