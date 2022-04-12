@@ -18,15 +18,9 @@ public class DataInitialiser implements CommandLineRunner {
     private final OwnerService ownerService;
     private final VetService vetService;
 
-    /**
-     * This version is not really through Spring configuration nor
-     * leverages profiles. It is tied in to a specific implementation
-     * strategy based on maps.  Also, we have leakabe of entity
-     * ids into this class. This will all be refactored later
-     */
-    public DataInitialiser() {
-        ownerService = new OwnerServiceMap();
-        vetService = new VetServiceMap();
+    public DataInitialiser(OwnerService ownerService, VetService vetService) {
+        this.ownerService = ownerService;
+        this.vetService = vetService;
     }
 
     @Override
