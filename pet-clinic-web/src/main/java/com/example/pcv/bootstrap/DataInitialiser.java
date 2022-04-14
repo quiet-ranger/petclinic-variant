@@ -1,6 +1,7 @@
 package com.example.pcv.bootstrap;
 
 import com.example.pcv.model.Owner;
+import com.example.pcv.model.Pet;
 import com.example.pcv.model.PetType;
 import com.example.pcv.model.Vet;
 import com.example.pcv.services.OwnerService;
@@ -8,6 +9,8 @@ import com.example.pcv.services.PetTypeService;
 import com.example.pcv.services.VetService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 
 @Component
@@ -26,13 +29,13 @@ public class DataInitialiser implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        PetType dog = new PetType();
-        dog.setName("Rusty");
-        dog = petTypeService.save( dog );
+        PetType dogType = new PetType();
+        dogType.setName("Dog");
+        dogType = petTypeService.save( dogType );
 
-        PetType cat = new PetType();
-        cat.setName("Pussy");
-        cat = petTypeService.save( cat );
+        PetType catType = new PetType();
+        catType.setName("Cat");
+        catType = petTypeService.save( catType );
 
         Owner owner1 = new Owner();
         owner1.setFirstName("Rafael");
@@ -41,14 +44,28 @@ public class DataInitialiser implements CommandLineRunner {
         owner1.setCity("Madrid");
         owner1.setTelephone("1231231234");
 
+        Pet owner1Pet = new Pet();
+        owner1Pet.setPetType(dogType);
+        owner1Pet.setOwner(owner1);
+        owner1Pet.setName("Rusty");
+        owner1Pet.setBirthDate(LocalDate.now());
+        owner1.getPets().add(owner1Pet);
+
         ownerService.save(owner1);
 
         Owner owner2 = new Owner();
-        owner2.setFirstName("Eduardo");
-        owner2.setLastName("Alonso");
+        owner2.setFirstName("Antonio");
+        owner2.setLastName("Banderas");
         owner2.setAddress("Avenida de la Castellana, 157");
         owner2.setCity("Madrid");
         owner2.setTelephone("1231231234");
+
+        Pet owner2Pet = new Pet();
+        owner2Pet.setPetType(catType);
+        owner2Pet.setOwner(owner2);
+        owner2Pet.setName("Pussy");
+        owner2Pet.setBirthDate(LocalDate.now());
+        owner2.getPets().add(owner2Pet);
 
         ownerService.save(owner2);
 
