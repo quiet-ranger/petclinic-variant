@@ -1,9 +1,29 @@
 package com.example.pcv.services.map;
 
+import com.example.pcv.model.Speciality;
 import com.example.pcv.model.Vet;
+import com.example.pcv.services.SpecialityService;
 import com.example.pcv.services.VetService;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 public class VetServiceMap extends AbstractMapService<Vet, Long> implements VetService {
+
+    private final SpecialityService specialityService;
+
+    public VetServiceMap(SpecialityService specialityService) {
+        this.specialityService = specialityService;
+    }
+
+    @Override
+    public Vet save(Vet vet) {
+
+        Set<Speciality> specialities = vet.getSpecialities();
+        specialities.forEach(
+                speciality -> { specialityService.save(speciality); }
+        );
+        return super.save(vet);
+    }
 }
