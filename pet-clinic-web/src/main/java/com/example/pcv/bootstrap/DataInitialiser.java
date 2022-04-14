@@ -1,13 +1,11 @@
 package com.example.pcv.bootstrap;
 
 import com.example.pcv.model.Owner;
-import com.example.pcv.model.Pet;
 import com.example.pcv.model.PetType;
 import com.example.pcv.model.Vet;
 import com.example.pcv.services.OwnerService;
+import com.example.pcv.services.PetTypeService;
 import com.example.pcv.services.VetService;
-import com.example.pcv.services.map.OwnerServiceMap;
-import com.example.pcv.services.map.VetServiceMap;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -17,14 +15,24 @@ public class DataInitialiser implements CommandLineRunner {
 
     private final OwnerService ownerService;
     private final VetService vetService;
+    private final PetTypeService petTypeService;
 
-    public DataInitialiser(OwnerService ownerService, VetService vetService) {
+    public DataInitialiser(OwnerService ownerService, VetService vetService, PetTypeService petTypeService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
+        this.petTypeService = petTypeService;
     }
 
     @Override
     public void run(String... args) throws Exception {
+
+        PetType dog = new PetType();
+        dog.setName("Rusty");
+        dog = petTypeService.save( dog );
+
+        PetType cat = new PetType();
+        cat.setName("Pussy");
+        cat = petTypeService.save( cat );
 
         Owner owner1 = new Owner();
         owner1.setFirstName("Rafael");
