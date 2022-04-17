@@ -30,4 +30,9 @@ public class OwnerController {
 
     }
 
+    @RequestMapping("/pets")
+    public String findOwners() {
+        return "notimplemented";
+    }
+
 }
