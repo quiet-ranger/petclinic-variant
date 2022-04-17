@@ -1,12 +1,18 @@
 package com.example.pcv.model;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "visits")
 public class Visit extends BaseEntity {
 
     private LocalDate date;
     private String description;
-    private Long petId;
+
+    @ManyToOne
+    @JoinColumn(name = "pet_id")
+    private Pet pet;
 
     public LocalDate getDate() {
         return date;
@@ -24,11 +30,11 @@ public class Visit extends BaseEntity {
         this.description = description;
     }
 
-    public Long getPetId() {
-        return petId;
+    public Pet getPet() {
+        return pet;
     }
 
-    public void setPet(Long petId) {
-        this.petId = petId;
+    public void setPet(Pet petId) {
+        this.pet = petId;
     }
 }
