@@ -1,14 +1,11 @@
 package com.example.pcv.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.persistence.Column;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Setter
-@Getter
+@Entity
+@Table(name = "owners")
 public class Owner extends Person {
 
     @Column(name = "address")
@@ -20,6 +17,7 @@ public class Owner extends Person {
     @Column(name = "telephone")
     private String telephone;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<Pet> pets = new HashSet<>();
 
     public String getAddress() {
