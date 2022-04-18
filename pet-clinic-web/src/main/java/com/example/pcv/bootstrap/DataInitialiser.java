@@ -1,10 +1,7 @@
 package com.example.pcv.bootstrap;
 
 import com.example.pcv.model.*;
-import com.example.pcv.services.OwnerService;
-import com.example.pcv.services.PetTypeService;
-import com.example.pcv.services.SpecialityService;
-import com.example.pcv.services.VetService;
+import com.example.pcv.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -18,15 +15,18 @@ public class DataInitialiser implements CommandLineRunner {
     private final VetService vetService;
     private final PetTypeService petTypeService;
     private final SpecialityService specialityService;
+    private final VisitService visitService;
 
     public DataInitialiser(OwnerService ownerService,
                            VetService vetService,
                            PetTypeService petTypeService,
-                           SpecialityService specialityService) {
+                           SpecialityService specialityService,
+                           VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.specialityService = specialityService;
+        this.visitService = visitService;
     }
 
     @Override
@@ -48,37 +48,43 @@ public class DataInitialiser implements CommandLineRunner {
         catType.setName("Cat");
         catType = petTypeService.save( catType );
 
-        Owner owner1 = new Owner();
-        owner1.setFirstName("Rafael");
-        owner1.setLastName("Nadal");
-        owner1.setAddress("Calle Genova, 3");
-        owner1.setCity("Madrid");
-        owner1.setTelephone("1231231234");
+        Owner rafael = new Owner();
+        rafael.setFirstName("Rafael");
+        rafael.setLastName("Nadal");
+        rafael.setAddress("Calle Genova, 3");
+        rafael.setCity("Madrid");
+        rafael.setTelephone("1231231234");
 
-        Pet owner1Pet = new Pet();
-        owner1Pet.setPetType(dogType);
-        owner1Pet.setOwner(owner1);
-        owner1Pet.setName("Rusty");
-        owner1Pet.setBirthDate(LocalDate.now());
-        owner1.getPets().add(owner1Pet);
+        Pet dog = new Pet();
+        dog.setPetType(dogType);
+        dog.setOwner(rafael);
+        dog.setName("Rusty");
+        dog.setBirthDate(LocalDate.now());
+        rafael.getPets().add(dog);
 
-        ownerService.save(owner1);
+        ownerService.save(rafael);
 
-        Owner owner2 = new Owner();
-        owner2.setFirstName("Antonio");
-        owner2.setLastName("Banderas");
-        owner2.setAddress("Avenida de la Castellana, 157");
-        owner2.setCity("Madrid");
-        owner2.setTelephone("1231231234");
+        Owner antonio = new Owner();
+        antonio.setFirstName("Antonio");
+        antonio.setLastName("Banderas");
+        antonio.setAddress("Avenida de la Castellana, 157");
+        antonio.setCity("Madrid");
+        antonio.setTelephone("1231231234");
 
-        Pet owner2Pet = new Pet();
-        owner2Pet.setPetType(catType);
-        owner2Pet.setOwner(owner2);
-        owner2Pet.setName("Pussy");
-        owner2Pet.setBirthDate(LocalDate.now());
-        owner2.getPets().add(owner2Pet);
+        Pet cat = new Pet();
+        cat.setPetType(catType);
+        cat.setOwner(antonio);
+        cat.setName("Pussy");
+        cat.setBirthDate(LocalDate.now());
+        antonio.getPets().add(cat);
 
-        ownerService.save(owner2);
+        ownerService.save(antonio);
+
+        Visit catVisit = new Visit();
+        catVisit.setPet(cat);
+        catVisit.setDate(LocalDate.now());
+        catVisit.setDescription("Does not eat");
+        visitService.save(catVisit);
 
         System.out.println("Loaded owners...");
 
