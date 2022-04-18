@@ -2,12 +2,13 @@ package com.example.pcv.bootstrap;
 
 import com.example.pcv.model.*;
 import com.example.pcv.services.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
-
+@Slf4j
 @Component
 public class DataInitialiser implements CommandLineRunner {
 
@@ -86,7 +87,7 @@ public class DataInitialiser implements CommandLineRunner {
         catVisit.setDescription("Does not eat");
         visitService.save(catVisit);
 
-        System.out.println("Loaded owners...");
+        log.info("Loaded owners...");
 
         Speciality radiology = new Speciality();
         radiology.setDescription("Radiology");
@@ -115,7 +116,7 @@ public class DataInitialiser implements CommandLineRunner {
 
         vetService.save(vet2);
 
-        System.out.println("Loaded vets...");
+        log.info("Loaded vets...");
     }
 
 }
