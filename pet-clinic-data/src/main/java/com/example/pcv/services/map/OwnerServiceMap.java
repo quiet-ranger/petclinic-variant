@@ -5,12 +5,14 @@ import com.example.pcv.model.Pet;
 import com.example.pcv.services.OwnerService;
 import com.example.pcv.services.PetService;
 import com.example.pcv.services.PetTypeService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.Set;
 
 @Service
+@Profile({"default","map"})
 public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements OwnerService {
 
     private final PetTypeService petTypeService;

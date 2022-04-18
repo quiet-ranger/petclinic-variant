@@ -4,11 +4,13 @@ import com.example.pcv.model.Speciality;
 import com.example.pcv.model.Vet;
 import com.example.pcv.services.SpecialityService;
 import com.example.pcv.services.VetService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
+@Profile({"default","map"})
 public class VetServiceMap extends AbstractMapService<Vet, Long> implements VetService {
 
     private final SpecialityService specialityService;
