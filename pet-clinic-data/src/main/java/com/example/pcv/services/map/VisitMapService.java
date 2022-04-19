@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Profile({"default","map"})
-public class VisitServiceMap extends AbstractMapService<Visit, Long> implements VisitService {
+public class VisitMapService extends AbstractMapService<Visit, Long> implements VisitService {
 
     @Override
     public Visit save(Visit entity) {
