@@ -11,6 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -69,11 +72,14 @@ class OwnerSDJpaServiceTest {
 
     @Test
     void findByLastName() {
-        when(ownerRepository.findByLastName(any())).thenReturn(owner);
+        HashSet<Owner> mockedResult = new HashSet<>();
+        mockedResult.add(owner);
+        when(ownerRepository.findAllByLastNameLike(any())).thenReturn(mockedResult);
 
-        Owner result = service.findByLastName( LAST_NAME );
+        Collection<Owner> result = service.findAllByLastNameLike( LAST_NAME );
 
-        assertEquals( LAST_NAME, result.getLastName(), "Last name does not match");
-        verify( ownerRepository ).findByLastName(any());
+        assertEquals(1, result.size(), "Wrong number of matches");
+        assertEquals( LAST_NAME, result.stream().iterator().next().getLastName(), "Last name does not match");
+        verify( ownerRepository ).findAllByLastNameLike(any());
     }
 }

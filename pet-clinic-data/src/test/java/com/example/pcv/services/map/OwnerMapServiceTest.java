@@ -4,6 +4,8 @@ import com.example.pcv.model.Owner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -45,7 +47,8 @@ class OwnerMapServiceTest {
 
     @Test
     void findByLastName() {
-        Owner owner = ownerMapService.findByLastName( LAST_NAME );
-        assertEquals( FIRST_NAME, owner.getFirstName(), "Wrong person");
+        Set<Owner> owners = ownerMapService.findAllByLastNameLike( LAST_NAME );
+        assertEquals(1, owners.size(), "Wrong number of matches");
+        assertEquals( FIRST_NAME, owners.iterator().next().getFirstName(), "Wrong person");
     }
 }
