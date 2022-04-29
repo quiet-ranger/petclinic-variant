@@ -5,6 +5,7 @@ import com.example.pcv.services.OwnerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -115,7 +116,6 @@ class OwnerControllerTest {
                 .andExpect(model().attribute("owners", hasSize(2)));
     }
 
-
     @Test
     void displayOwner() throws Exception {
         when(ownerService.findById(anyLong())).thenReturn(owner1);
@@ -127,4 +127,49 @@ class OwnerControllerTest {
                 ;
     }
 
+    @Test
+    void createOwnerFormRequest() throws Exception {
+        mockMvc.perform(get("/owners/new"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/createOrUpdateOwnerForm"))
+                .andExpect(model().attributeExists("owner"))
+                ;
+        verifyNoInteractions(ownerService);
+    }
+
+    @Test
+    void createOwnerForm() throws Exception {
+        when(ownerService.save(ArgumentMatchers.any())).thenReturn(owner1);
+
+        mockMvc.perform(post("/owners/new"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/owners/1"))
+                .andExpect(model().attributeExists("owner"))
+                ;
+        verify(ownerService).save(ArgumentMatchers.any());
+    }
+
+    @Test
+    void editOwnerFormRequest() throws Exception {
+        when(ownerService.findById(anyLong())).thenReturn(owner1);
+
+        mockMvc.perform(get("/owners/1/edit"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/createOrUpdateOwnerForm"))
+                .andExpect(model().attributeExists("owner"))
+                ;
+        verify(ownerService).findById(anyLong());
+    }
+
+    @Test
+    void editOwnerForm() throws Exception {
+        when(ownerService.save(ArgumentMatchers.any())).thenReturn(owner1);
+        // TODO this test is flawed because POST is missing body
+        mockMvc.perform(post("/owners/1/edit"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/owners/1"))
+                .andExpect(model().attributeExists("owner"))
+                ;
+        verify(ownerService).save(ArgumentMatchers.any());
+    }
 }

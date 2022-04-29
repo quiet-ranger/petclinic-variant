@@ -10,6 +10,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.naming.Binding;
+import javax.validation.Valid;
 import java.util.*;
 
 @RequestMapping("/owners")
@@ -75,10 +77,45 @@ public class OwnerController {
     }
 
     @GetMapping("/{ownerId}")
-    public ModelAndView showOwner(@PathVariable("ownerId") Long ownerId) {
+    public ModelAndView showOwner(@PathVariable Long ownerId) {
         ModelAndView mav = new ModelAndView("owners/ownerDetails");
         mav.addObject(ownerService.findById(ownerId));
         return mav;
     }
 
+    @GetMapping("/new")
+    public String createOwnerFormRequest(Model model) {
+        Owner owner = new Owner();
+        model.addAttribute("owner", owner);
+        return "owners/createOrUpdateOwnerForm";
+    }
+
+    @PostMapping("/new")
+    public String createOwnerForm(@Valid Owner owner, BindingResult result) {
+        if (result.hasErrors()) {
+            return "owners/createOrUpdateOwnerForm";
+        }
+        else {
+            Owner savedOwner = ownerService.save(owner);
+            return "redirect:/owners/" + savedOwner.getId();
+        }
+    }
+
+    @GetMapping("{ownerId}/edit")
+    public String editOwnerFormRequest(@PathVariable Long ownerId, Model model) {
+        model.addAttribute("owner", ownerService.findById(ownerId));
+        return "owners/createOrUpdateOwnerForm";
+    }
+
+    @PostMapping("{ownerId}/edit")
+    public String editOwnerForm(@Valid Owner owner, BindingResult result, @PathVariable Long ownerId) {
+        if (result.hasErrors()) {
+            return "owners/createOrUpdateOwnerForm";
+        }
+        else {
+            owner.setId(ownerId); // this is needed because of @InitBinder
+            Owner savedOwner = ownerService.save(owner);
+            return "redirect:/owners/" + savedOwner.getId();
+        }
+    }
 }
