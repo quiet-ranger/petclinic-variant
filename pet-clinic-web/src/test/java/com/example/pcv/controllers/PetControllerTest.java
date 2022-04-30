@@ -137,8 +137,11 @@ class PetControllerTest {
         ;
     }
 
-    @Test
-    void editPetForm() throws Exception {
+    @Disabled
+    void editPetFormUsingJSONBody() throws Exception {
+        // For this test to pass, the handling method must:
+        // + Include consumes = { MediaType.APPLICATION_JSON_VALUE } in the @PostMapping
+        // + NOT have annotation @RequestBody
         pet1.setName("Fifi");
         when(ownerService.findById(anyLong())).thenReturn(owner1);
         when(petTypeService.findAll()).thenReturn(petTypes);
@@ -150,6 +153,26 @@ class PetControllerTest {
                         .characterEncoding("UTF-8")
                         .content(body)
                         .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().is3xxRedirection())
+                .andExpect(model().attributeExists("owner"))
+                .andExpect(model().attributeExists("petTypes"))
+                .andExpect(view().name("redirect:/owners/1"))
+        ;
+        verify(petService).save(any());
+    }
+
+    @Test
+    void editPetFormUsingURLEncoding() throws Exception {
+        pet1.setName("Fifi");
+        when(ownerService.findById(anyLong())).thenReturn(owner1);
+        when(petTypeService.findAll()).thenReturn(petTypes);
+        when(petService.save(any())).thenReturn(pet1);
+
+        mockMvc.perform(post("/owners/1/pets/1/edit")
+                        .characterEncoding("UTF-8")
+                        .content(ObjectMapperUtils.convertToUrlEncoded(pet1))
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(model().attributeExists("owner"))

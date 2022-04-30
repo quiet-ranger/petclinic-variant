@@ -91,8 +91,9 @@ public class PetController {
         return "pets/createOrUpdatePetForm";
     }
 
-    @PostMapping(value = "/pets/{petId}/edit", consumes = { MediaType.APPLICATION_JSON_VALUE })
-    public String editPetForm(Owner owner, @Valid @RequestBody Pet pet, @PathVariable Long petId, @PathVariable Long ownerId, BindingResult result, Model model) {
+//    @PostMapping(value = "/pets/{petId}/edit", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @PostMapping(value = "/pets/{petId}/edit")
+    public String editPetForm(Owner owner, @Valid /* @RequestBody */ Pet pet, @PathVariable Long petId, @PathVariable Long ownerId, BindingResult result, Model model) {
         // Some validation to make sure a valid pet name that does not exist is being used
         if ( pet.getName() == null || pet.getName().length() == 0 ) {
             result.rejectValue("name", "duplicate", "That pet name is invalid");
@@ -105,6 +106,7 @@ public class PetController {
         else {
             owner.getPets().add(pet);
             pet.setId(petId); // is this needed?
+            pet.setOwner(owner);
             petService.save(pet);
             return "redirect:/owners/" + ownerId;
         }

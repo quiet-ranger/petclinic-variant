@@ -3,15 +3,15 @@
       th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
 <head>
     <meta charset="UTF-8">
-    <title th:attr="data-form-url='/owners/' + ${owner.id} + '/pets/new'">Pets</title>
+    <title>Pets</title>
 </head>
 <body>
-<h2>
-    <th:block th:if="${pet['new']}">New </th:block>Pet
-</h2>
 <!--/*@thymesVar id="pet" type="com.example.pcv.model.Pet"*/-->
 <!--/*@thymesVar id="owner" type="com.example.pcv.model.Owner"*/-->
 <!--/*@thymesVar id="petType" type="com.example.pcv.model.PetType"*/-->
+<h2>
+    <th:block th:if="${pet['new']}">New </th:block>Pet
+</h2>
 <form th:object="${pet}" class="form-horizontal" method="post">
     <input type="hidden" name="id" th:value="*{id}" />
     <div class="form-group has-feedback">
