@@ -64,17 +64,6 @@ class OwnerControllerTest {
     }
 
     @Test
-    void listOwnersByIndex() throws Exception {
-        when(ownerService.findAll()).thenReturn(owners);
-
-        mockMvc.perform(get("/owners/index"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("owners/ownersList"))
-                .andExpect(model().attribute("owners", hasSize(2)))
-                ;
-    }
-
-    @Test
     void findOwnersFormRequest() throws Exception {
         mockMvc.perform(get("/owners/find"))
                 .andExpect(status().isOk())
@@ -85,7 +74,7 @@ class OwnerControllerTest {
     }
 
     @Test
-    void findByLastNameReturnsManyResults() throws Exception {
+    void findOwnersRequestByLastNameReturnsManyResults() throws Exception {
         when(ownerService.findAllByLastNameLike(anyString())).thenReturn(owners);
         mockMvc.perform(post("/owners/find"))
                 .andExpect(status().isOk())
@@ -96,7 +85,7 @@ class OwnerControllerTest {
     }
 
     @Test
-    void findByLastNameReturnsOneResult() throws Exception {
+    void findOwnersRequestByLastNameReturnsOneResult() throws Exception {
         owners.remove(owner2);
         when(ownerService.findAllByLastNameLike(anyString())).thenReturn(owners);
         mockMvc.perform(post("/owners/find"))
@@ -105,6 +94,18 @@ class OwnerControllerTest {
                 ;
     }
 
+    @Test
+    void findOwnersRequestEmptyQueryReturnsManyResults() throws Exception {
+        when(ownerService.findAllByLastNameLike(anyString())).thenReturn(owners);
+        mockMvc.perform(post("/owners/find")
+                        .param("lastName","")
+                )
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("ownersList"))
+                .andExpect(model().attribute("ownersList", hasSize(2)))
+                .andExpect(view().name("owners/ownersList"))
+        ;
+    }
 
     @Test
     void findOwnerByFirstName() throws Exception {

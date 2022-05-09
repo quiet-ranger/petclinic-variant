@@ -11,13 +11,12 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "visits")
 public class Visit extends BaseEntity {
 
     @NotEmpty
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     @NotEmpty
@@ -27,4 +26,11 @@ public class Visit extends BaseEntity {
     @JoinColumn(name = "pet_id")
     private Pet pet;
 
+    @Override
+    public String toString() {
+        return "Visit{" +
+                "date=" + date +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
